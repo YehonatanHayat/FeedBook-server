@@ -21,6 +21,7 @@ const login = async (req, res) => {
         
         if (user) {
             const token = await tokenService.generateToken(user.email);
+            console.log(token);
             return res.status(201).json({ user, token });
         } else {
             return res.status(404).send('Invalid email or password');
