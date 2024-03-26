@@ -67,6 +67,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const customEnv = require('custom-env');
+const Post = require('./models/posts');
 
 // Import user routes
 const userRoute = require('./routes/users');
@@ -79,7 +80,8 @@ const PORT = process.env.PORT || 8080;
 const CONNECTION_STRING = process.env.CONNECTION_STRING;
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+//app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '50mb' })); 
 app.use(cors());
 
 mongoose.connect(CONNECTION_STRING, {
@@ -90,12 +92,21 @@ mongoose.connect(CONNECTION_STRING, {
 app.use(express.static('public'));
 
 // Use user routes
-app.use('/api/users', userRoute); // Prefix route with /api/users
+app.use('/api/users', userRoute);
 
 // Use token routes
-app.use('/api/token', tokenRoute); // Prefix route with /api/token
+app.use('/api/token', tokenRoute);
 
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
+});
+
+app.get('/api/posts', async (req, res) => {
+  try {
+    const posts = await Post.find(); // Fetch all posts from the database
+    res.json(posts);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
