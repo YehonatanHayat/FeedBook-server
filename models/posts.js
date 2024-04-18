@@ -3,11 +3,10 @@ const mongoose = require('mongoose');
 
 const post = new mongoose.Schema({
     content: { 
-      type: String, 
-      required: true },
+      type: String },
     author: { 
-      type: String, 
-      required: true },
+      type: String
+       },
     date: { 
       type: Date, 
       default: Date.now },

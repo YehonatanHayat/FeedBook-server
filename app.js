@@ -1,5 +1,6 @@
 
 
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -11,7 +12,6 @@ const Post = require('./models/posts');
 const userRoute = require('./routes/users');
 const tokenRoute = require('./routes/token');
 const postsRouter = require('./routes/posts');
-
 customEnv.env(process.env.NODE_ENV, './config');
 
 const app = express();
@@ -41,4 +41,3 @@ app.use('/posts', postsRouter);
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
