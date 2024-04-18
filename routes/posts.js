@@ -14,5 +14,6 @@ const postsController = require('../controllers/postsController');
 const router = express.Router();
 
 router.post('/', postsController.createPost);
-
+router.get('/', postsController.getAllPosts);
+router.delete('/:id', postsController.deletePost);
 module.exports = router;
