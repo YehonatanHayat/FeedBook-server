@@ -1,4 +1,5 @@
 
+const e = require('cors');
 const mongoose = require('mongoose');
 
 const post = new mongoose.Schema({
@@ -11,7 +12,12 @@ const post = new mongoose.Schema({
       type: Date, 
       default: Date.now },
     pic: { 
-      type: String } // Assuming you store the URL of the picture
+      type: String },
+      email: {
+        type: String,
+        required: true,
+
+      }
 });
 
 module.exports = mongoose.model('Post', post);

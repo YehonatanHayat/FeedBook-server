@@ -1,5 +1,5 @@
-// Assuming you have a MongoDB database and you're using Mongoose for interacting with it
-const User = require('../models/users'); // Assuming you have a User model defined
+
+const User = require('../models/users');
 
 const authenticateUser = async (email, password) => {
     try {

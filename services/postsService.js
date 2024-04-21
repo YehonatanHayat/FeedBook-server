@@ -10,8 +10,8 @@
 
 const Post = require('../models/posts');
 
-const createPost = async ({ content, author,date }) => {
-  const post = new Post({ content, author, date});
+const createPost = async (content, author,email) => {
+  const post = new Post({content, author,email});
   return await post.save();
 };
 
