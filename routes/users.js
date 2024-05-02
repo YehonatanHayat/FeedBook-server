@@ -1,35 +1,12 @@
-const { request } = require('express');
-const mongoose = require('mongoose');
+const express = require('express');
+const router = express.Router();
+const UserController = require('../controllers/userController');
 
-// Define user schema
-const userSchema = new mongoose.Schema({
-  name: { 
-    type: String, 
-    required: true },
-  email: { 
-    type: String, 
-    required: true, 
-    unique: true },
-  password: { 
-    type: String, 
-    required: true },
-  dob: { 
-    type: Date, 
-    required: true },
-  gender: { 
-    type: String, 
-    required: true },
-  photo: { 
-    type: String },
-    friends: {
-      type: Array,
-      default: []
-    },
-    requestsForFriends: {
-      type: Array,
-      default: []
-    },
-  
-});     
-// Create and export User model
-module.exports = mongoose.model('User', userSchema);
+
+// POST route to create a new user
+router.post('/', UserController.createUser);
+
+
+// GET route to fetch user data by username
+router.get('/:email', UserController.getUserByUsername);
+module.exports = router;
