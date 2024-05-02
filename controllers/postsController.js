@@ -60,8 +60,8 @@ const getAllPosts = async (req, res) => {
       const token = authorization.split(' ')[1];
       console.log(token);
       const decoded = jwt.verify(token, 'your_secret_key'); 
-      const userName = decoded.name;
-      console.log(user.name);
+      const userName = decoded.userEmail;
+      
   
       // Check if the user's name matches the author of the post
       const post = await Post.findById(postId);
