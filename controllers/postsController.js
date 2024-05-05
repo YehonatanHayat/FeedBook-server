@@ -1,30 +1,9 @@
 
-// const postService = require('../services/posts');
 
-// const createPost = async (req, res) => {
-//     res.json(await postService.createPost(req.body.title));
-// };
-
-// module.exports = {createPost};
-
-// const postService = require('../services/postsService');
-
-// const createPost = async (req, res) => {
-//     try {
-//         console.log('createPost');
-//         const { title, author, content } = req.body;
-//         const post = await postService.createPost({ title, author, content });
-//         res.json(post);
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ error: 'Internal Server Error' });
-//     }
-// };
-
-// module.exports = { createPost };
 const jwt = require('jsonwebtoken');
 const Post = require('../models/posts');
 const postService = require('../services/postsService');
+const User = require('../models/users');
 
 const createPost = async (req, res) => {
     const { authorization } = req.headers;
@@ -89,27 +68,7 @@ const getAllPosts = async (req, res) => {
     }
   };
 
-// const updatePost = async (req, res) => {
-//     console.log('updatePost', req.body);
-//     const { authorization } = req.headers;
-//     const postId = req.params.id;
-//     try {
-//       const token = authorization.split(' ')[1];
-//       const decoded = jwt.verify(token, 'your_secret_key'); 
-//       const userEmail = decoded.userEmail;
-//       const post =await Post.findById(postId);
-//       if (userEmail == post.email) {
-//         const { content } = req.body;
-//         await Post.findByIdAndUpdate(postId, { content });
-//         res.sendStatus(204); // No content (successful update)
-//       } else {
-//         res.status(403).json({ error: 'You cannot update this post' });
-//       }
-//     } catch (error) {
-//       console.error('Error updating post:', error);
-//       res.status(500).json({ error: 'Failed to update post' });
-//     }
-//   }
+
 
 
 const updatePost = async (req, res) => {
@@ -117,17 +76,15 @@ const updatePost = async (req, res) => {
     const { authorization } = req.headers;
     const postId = req.params.id;
     try {
-      // Verify user authorization
       const token = authorization.split(' ')[1];
       const decoded = jwt.verify(token, 'your_secret_key'); 
       const userEmail = decoded.userEmail;
       const post = await Post.findById(postId);
       if (userEmail === post.email) {
-        // Extract the new content from the request body
         const { content } = req.body;
-        // Update the post content in the database
+
         await Post.findByIdAndUpdate(postId, { content });
-        res.sendStatus(204); // No content (successful update)
+        res.sendStatus(204); 
       } else {
         res.status(403).json({ error: 'You cannot update this post' });
       }
@@ -153,10 +110,24 @@ const updatePost = async (req, res) => {
     }
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
   module.exports = {
     createPost,
     getAllPosts,
     deletePost,
     updatePost,
     getPost,
+ 
   };

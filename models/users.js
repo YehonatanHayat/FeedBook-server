@@ -1,3 +1,4 @@
+const { request } = require('express');
 const mongoose = require('mongoose');
 
 // Define user schema
@@ -21,6 +22,10 @@ const userSchema = new mongoose.Schema({
   photo: { 
     type: String },
     friends: {
+      type: Array,
+      default: []
+    },
+    requestsForFriends: {
       type: Array,
       default: []
     },
