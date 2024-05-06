@@ -7,18 +7,20 @@ const User = require('../models/users');
 
 const createPost = async (req, res) => {
     const { authorization } = req.headers;
+
   try {
+    console.log('createPost', req.body);
     const token = authorization.split(' ')[1];
       console.log(token);
       const decoded = jwt.verify(token, 'your_secret_key'); 
       const userEmail = decoded.userEmail;
       console.log("userEmail",userEmail);
 
-    const { content, author } = req.body;
-    console.log(req.body, content, author);
-    // You may want to validate the data here
+    const { content, author, photo:photo } = req.body;
+    console.log('pic', photo);
 
-    const post = await postService.createPost( content, author, userEmail);
+
+    const post = await postService.createPost( content, author, userEmail,photo);
     res.json(post);
   } catch (error) {
     console.error(error);
@@ -26,15 +28,53 @@ const createPost = async (req, res) => {
   }
 };
 
+
+// const getAllPosts = async (req, res) => {
+//   const { user } = req.body;
+//   console.log('getAllPosts', user); 
+//   try {
+//     const posts = await Post.find().sort({ date: -1 }); 
+//     res.status(200).json(posts); 
+//   } catch (error) {
+//     console.error('Error fetching posts:', error);
+//     res.status(500).json({ error: 'Failed to fetch posts' });
+//   }
+// };
+
+
+
+
 const getAllPosts = async (req, res) => {
-    try {
-      const posts = await Post.find();
-      res.json(posts);
-    } catch (error) {
-      console.error('Error fetching posts:', error);
-      res.status(500).json({ error: 'Failed to fetch posts' });
-    }
-  };
+  const { authorization } = req.headers;
+
+  try {
+    // Extract user email from the authorization token
+    const token = authorization.split(' ')[1];
+    const decoded = jwt.verify(token, 'your_secret_key');
+    const userEmail = decoded.userEmail;
+    console.log('userEmail-getAllPosts', userEmail);
+
+    const user = await User.findOne({ email: userEmail });
+    const userFriends = user.friends;
+    console.log('userfriends', userFriends);
+
+
+   
+    const userPosts = await Post.find({ email: userEmail }).sort({ date: -1 });
+    const friendPosts = await Post.find({ email: { $in: userFriends } }).sort({ date: -1 }).limit(20);
+    const nonFriendPosts = await Post.find({ email: { $nin: [...userFriends, userEmail] } }).sort({ date: -1 }).limit(5);
+
+
+    const posts = [...userPosts, ...friendPosts, ...nonFriendPosts];
+    posts.sort((a, b) => b.date - a.date);
+    res.status(200).json(posts);
+  } catch (error) {
+    console.error('Error fetching posts$$$$$$$$$:', error);
+    res.status(500).json({ error: 'Failed to fetch posts' });
+  }
+};
+
+
 
 
   const deletePost = async (req, res) => {
@@ -94,31 +134,47 @@ const updatePost = async (req, res) => {
     }
   }
 
-  const getPost = async (req, res) => {
-    console.log('getPost', req.params.id);
-    const postId = req.params.id;
-    try {
-      const post = await Post.findById(postId);
-      if (post) {
-        res.json(post);
-      } else {
-        res.status(404).json({ error: 'Post not found' });
-      }
-    } catch (error) {
-      console.error('Error fetching post:', error);
-      res.status(500).json({ error: 'Failed to fetch post' });
-    }
-  }
+  // const getPost = async (req, res) => {
+  //   console.log('getPost', req.params.id);
+  //   const postId = req.params.id;
+  //   try {
+  //     const post = await Post.findById(postId);
+  //     if (post) {
+  //       res.json(post);
+  //     } else {
+  //       res.status(404).json({ error: 'Post not found' });
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching post!!!!!:', error);
+  //     res.status(500).json({ error: 'Failed to fetch post' });
+  //   }
+  // }
 
 
-
-
-
-
-
-
-
-
+  // const getPosts = async (req, res) => {
+  //   console.log('getPosts', req.body);
+  //   try {
+  //     const { authorization } = req.headers;
+  //     const token = authorization.split(' ')[1];
+  //     const decoded = jwt.verify(token, 'your_secret_key'); 
+  //     const userEmail = decoded.userEmail;
+      
+  
+  //     const user = await User.findOne({ email: userEmail }).exec();
+  //     console.log('user', user.email);
+  //     console.log('user.friends', user.friends);
+  //     const userFriends = user.friends.map(friend => friend.email);
+      
+  //     // Fetch posts from the user and their friends
+  //     const posts = await Post.find({ $or: [{ email: userEmail }, { email: { $in: userFriends } }] }).exec();
+  
+  //     res.json(posts);
+  //   } catch (error) {
+  //     console.error('Error fetching posts:', error);
+  //     res.status(500).json({ error: 'Failed to fetch posts' });
+  //   }
+  // };
+  
 
 
 
@@ -128,6 +184,7 @@ const updatePost = async (req, res) => {
     getAllPosts,
     deletePost,
     updatePost,
-    getPost,
+   // getPost,
+    //getPosts,
  
   };
