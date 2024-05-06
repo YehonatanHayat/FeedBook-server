@@ -8,16 +8,17 @@ const post = new mongoose.Schema({
     author: { 
       type: String
        },
-    date: { 
-      type: Date, 
-      default: Date.now },
-    pic: { 
-      type: String },
-      email: {
+       email: {
         type: String,
         required: true,
 
-      }
+      },
+      pic: { 
+        type: String },
+    date: { 
+      type: Date, 
+      default: Date.now },
+
 });
 
 module.exports = mongoose.model('Post', post);

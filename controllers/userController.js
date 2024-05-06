@@ -43,7 +43,7 @@ exports.getUserByUsername = async (req, res) => {
     if(decoded.userEmail==paramEmail){
       console.log("User is authenticated");
       const user =await User.findOne({ email: paramEmail });
-      console.log("user:",user);
+      //console.log("user:",user);
       if (!user) {
         console.log("User not found");
         return res.status(404).json({ message: 'User not found' });
