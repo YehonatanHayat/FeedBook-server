@@ -8,5 +8,6 @@ router.post('/add-friend-request', ProfileController.addFriendRequest);
 router.delete('/cancel-friend-request', ProfileController.cancelFriendRequest);
 router.delete('/cancel-friendship', ProfileController.cancelFriendship);
 router.post('/accept-friend-request', ProfileController.acceptFriendRequest);
+router.get('/user-posts/:email', ProfileController.getUserPosts);
 
 module.exports = router;
