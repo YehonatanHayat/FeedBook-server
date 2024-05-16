@@ -44,9 +44,6 @@ exports.addFriendRequest = async (req, res) => {
   };
 
 
-
-
-
   exports.cancelFriendRequest = async (req, res) => {
     try {
       console.log("Canceling friend request...");
