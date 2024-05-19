@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 8080;
 const CONNECTION_STRING = process.env.CONNECTION_STRING;
 
 app.use(bodyParser.urlencoded({ extended: true }));
-//app.use(bodyParser.json());
+
 app.use(bodyParser.json({ limit: '50mb' })); 
 app.use(cors());
 
@@ -33,8 +33,9 @@ app.use(express.static('public'));
 
 app.use('/api/users', userRoute);
 app.use('/api/token', tokenRoute);
-app.use('/posts', postsRouter);
+app.use('/api/posts', postsRouter);
 app.use('/api/profile', profileRoutes);
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
