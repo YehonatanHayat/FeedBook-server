@@ -17,6 +17,10 @@ exports.createUser = async (req, res) => {
       photo
     });
 
+console.log("newUser:",newUser);
+console.log("newUser:",newUser.friends);
+
+
     await newUser.save();
     console.log('User created');
     res.status(201).json({ message: 'User created successfully' });

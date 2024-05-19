@@ -1,5 +1,6 @@
 const User = require('../models/users');
-
+const Post = require('../models/posts');
+const jwt = require('jsonwebtoken');
 exports.getUserByEmail = async (req, res) => {
   try {
     console.log("getUserByEmail- profileController.js");
@@ -26,7 +27,6 @@ exports.addFriendRequest = async (req, res) => {
       console.log("userEmail: ", userEmail);
       console.log("connectedEmail: ", connectedEmail);
   
-      // Find the user making the request
       const user = await User.findOne({ email: userEmail });
       if (!user) {
         return res.status(404).json({ message: 'User not found' });
@@ -42,9 +42,6 @@ exports.addFriendRequest = async (req, res) => {
       return res.status(500).json({ error: 'Internal server error' });
     }
   };
-
-
-
 
 
   exports.cancelFriendRequest = async (req, res) => {
@@ -118,6 +115,7 @@ exports.addFriendRequest = async (req, res) => {
       }
   
       // Add user's email to connected user's friends list
+      console.log("connectedUser: ", connectedUser);
       connectedUser.friends.push(userEmail);
       await connectedUser.save();
   
@@ -133,3 +131,24 @@ exports.addFriendRequest = async (req, res) => {
   };
   
 
+  exports.getUserPosts = async (req, res) => {
+    const { authorization } = req.headers;
+  
+    try {
+  
+      const token = authorization.split(' ')[1];
+      const decoded = jwt.verify(token, 'your_secret_key');
+      const userEmail = decoded.userEmail;
+      console.log('userEmail-getAllPosts', userEmail);
+  
+      const user = await User.findOne({ email: userEmail });
+   
+      const userPosts = await Post.find({ email: userEmail }).sort({ date: -1 });
+      const posts = [userPosts];
+      res.status(200).json(posts);
+    
+    } catch (error) {
+      console.error('Error fetching UserPosts:', error);
+      res.status(500).json({ error: 'Failed to fetch posts' });
+    }
+  };
