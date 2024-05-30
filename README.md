@@ -2,7 +2,7 @@ Link to repository: https://github.com/YehonatanHayat/part3_server.git
 
 Link to web repository: https://github.com/YehonatanHayat/part2.git
 
-Link to android repository: https://github.com/mocharish/A.S_part2.git
+
 
 This repository represents the FeedBook server which is the backend for our project, it connects between the client and the data base. It provides APIs for user authentication proccess,
 manages friend connections and posts and more.
