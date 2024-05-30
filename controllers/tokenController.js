@@ -1,15 +1,6 @@
 const userService = require('../services/userService');
 const tokenService = require('../services/tokenService');
 
-// const login = async (req, res) => {
-//     const user = await userService.authenticateUser(req.body.email, req.body.password);
-//     if (user) {
-//         const token = await tokenService.generateToken(user.email);
-//         res.status(201).json({user, token});
-//     }else{
-//         res.status(404).send('invalid user or password');
-//     }
-//     };
 
 
 
@@ -21,6 +12,7 @@ const login = async (req, res) => {
         
         if (user) {
             const token = await tokenService.generateToken(user.email);
+            console.log(token);
             return res.status(201).json({ user, token });
         } else {
             return res.status(404).send('Invalid email or password');

@@ -1,16 +1,24 @@
 
+const e = require('cors');
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-const Post = new Schema({
-    title: {
-    type: String,
-    required: true
-},
-published: {
-    type: Date,
-    default: Date.now
-}
+const post = new mongoose.Schema({
+    content: { 
+      type: String },
+    author: { 
+      type: String
+       },
+       email: {
+        type: String,
+        required: true,
+
+      },
+      pic: { 
+        type: String },
+    date: { 
+      type: Date, 
+      default: Date.now },
+
 });
 
-module.exports = mongoose.model('Post', Post);
+module.exports = mongoose.model('Post', post);
