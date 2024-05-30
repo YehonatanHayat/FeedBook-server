@@ -1,8 +1,4 @@
 
-// const generateToken= async (userEmail) => {
-//     const token = jwt.sign({userEmail},"key")
-//     return token;
-// }
 
 const jwt = require('jsonwebtoken');
 const generateToken = async (userEmail) => {
