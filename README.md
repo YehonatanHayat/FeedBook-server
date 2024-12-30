@@ -72,6 +72,6 @@ For the web application, refer to the following repository:
 
 ### Workflow
 
-After reading and understanding the instructions of the project, we came up with ideas of how to operate and then divided the tasks between us. We created a Jira accordingly. Each one of us worked on parts of both the web and the server and merged the work through GitHub to stay on the same page. We both had our own branches.
+The project was structured with clear planning and task management using Jira. Tasks were divided into modular units to ensure efficient and organized development.
 
-We made sure to structure our code with the MVC structure.
+GitHub was used for version control, allowing seamless integration of code changes. Each update was made in a separate branch to maintain a clean and manageable workflow. The code structure followed the MVC pattern to promote modularity and clarity.
